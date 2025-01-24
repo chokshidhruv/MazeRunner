@@ -1,5 +1,8 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,31 +11,37 @@ import java.io.IOException;
 
 public class GenerateMaze{
     private ArrayList<ArrayList<Symbol>> maze = new ArrayList<>();
-     
+    private static final Logger logger = LogManager.getLogger();
+    
     public ArrayList<ArrayList<Symbol>> generateMaze(String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
-
-        while((line = reader.readLine()) != null){
-            // If you think of array like this: 
-            // [[]
-            //  []
-            //  []]
-            // This basically adds a new row (ie. ArrayList Object) to the ArrayList 
-            maze.add(new ArrayList<Symbol>()); 
-            for (int idx = 0; idx <= line.length() - 1; idx++){
-                maze.get(maze.size() - 1).add(line.charAt(idx) == ' ' ? Symbol.EMPTY : Symbol.WALL); // Iterates through the newly created Array (ie. the last array) and adds character symbol from txt file
+        // Temporary maze structure - for MVP
+        // Allows empty line (straight maze) to be added
+        while ((line = reader.readLine()) != null) {
+            if (line.trim().isEmpty()) {
+                ArrayList<Symbol> emptyRow = new ArrayList<>();
+                for (int i = 0; i < maze.get(0).size(); i++) { 
+                    emptyRow.add(Symbol.EMPTY);
+                }
+                maze.add(emptyRow);
+                continue;
             }
-        }
 
-        // Copy of the maze
-        ArrayList<ArrayList<Symbol>> arrayMaze = new ArrayList<>();
+            ArrayList<Symbol> row = new ArrayList<>();
+            for (int idx = 0; idx < line.length(); idx++) {
+                row.add(line.charAt(idx) == ' ' ? Symbol.EMPTY : Symbol.WALL);
+            }
+            maze.add(row);
+        }
+        reader.close();
+        
+        //Print maze for debugging
+        logger.info("Generated maze structure:");
         for (ArrayList<Symbol> row : maze) {
-            arrayMaze.add(new ArrayList<>(row));
+            logger.info(row.toString());
         }
 
-        return arrayMaze; 
-    }
-    
-
+        return maze;
+        }
 }
