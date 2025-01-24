@@ -1,7 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public enum Symbol{
-    WALL('#'), EMPTY('A'), START('S'), END('E');
+    WALL('#'), EMPTY(' ');
 
     private char symbol;
 
