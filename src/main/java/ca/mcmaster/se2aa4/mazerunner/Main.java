@@ -63,24 +63,4 @@ public class Main {
         logger.info("**** Computing path");
         logger.info("** End of MazeRunner");
     }
-
-    // public static ArrayList<ArrayList<Character>> generateMaze(String filepath) {
-    //     ArrayList<ArrayList<Character>> maze = new ArrayList<ArrayList<Character>>();
-    //     try {
-    //         BufferedReader reader = new BufferedReader(new FileReader(filepath));
-    //         String line;
-    //         while ((line = reader.readLine()) != null) {
-    //             maze.add(new ArrayList<Character>()); // Add a new row to the maze
-
-    //             for (int idx = 0; idx < line.length(); idx++){
-    //                 maze.get(maze.size() - 1).add(line.charAt(idx)); // Add the character to the last row
-    //             }
-                
-    //         }
-    //         reader.close();
-    //     } catch (Exception e) {
-    //         logger.error("Error reading file");
-    //     }
-    //     return maze;
-    // }
 }
