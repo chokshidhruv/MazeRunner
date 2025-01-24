@@ -42,7 +42,6 @@ public class MazeSolver{
         }
         throw new IllegalArgumentException("No starting point found");
     }
-
     
     public ArrayList<Integer> findEnd(){ //Ends always on the last column
         ArrayList<Integer> end = new ArrayList<Integer>();
@@ -58,4 +57,52 @@ public class MazeSolver{
         }
         throw new IllegalArgumentException("No ending point found");
     }
+
+        public boolean isPath(int row, int col) {
+        if (row < 0 || col < 0 || row >= maze.size() || col >= maze.get(row).size()) {
+            return false;
+        }
+        return maze.get(row).get(col) == Symbol.EMPTY;
+    }
+
+    public ArrayList<Integer> checkPath(int row, int col){
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        if (isPath(row, col+1)){ //Check forward direction
+            setSequenceOfPath("F");
+            path.add(row);
+            path.add(col+1);
+        }
+        else if (isPath(row+1, col)){ //Check right direction
+            setSequenceOfPath("R");
+            path.add(row+1);
+            path.add(col);
+        }
+        else if (isPath(row-1, col)){ //Check left direction
+            setSequenceOfPath("L");
+            path.add(row-1);
+            path.add(col);
+        } else {
+            throw new IllegalArgumentException("No path found");
+        }
+
+        return path;
+    }
+
+    public void solveMaze(){
+        ArrayList<Integer> start = findStart();
+        ArrayList<Integer> end = findEnd();
+        ArrayList<Integer> path = new ArrayList<>();
+        int row = start.get(0);
+        int col = start.get(1);
+
+        while(row != end.get(0) || col != end.get(1)){
+            path = checkPath(row, col);
+            logger.info(String.format("Current position: [%d, %d]", row, col));
+            row = path.get(0);
+            col = path.get(1);
+        }
+
+        logger.info("Path found: " + getSequenceOfPath());  
+    }
+
 }
