@@ -11,18 +11,21 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
 
+import java.util.ArrayList;
+
 
 public class Main {
     
     private static final Logger logger = LogManager.getLogger();
+    private static Options options = new Options();
+    private static CommandLineParser parser = new DefaultParser();
 
     public static void main(String[] args) {
     
         logger.info("** Starting Maze Runner"); //Log the start of the MazeRunner
-
-        Options options = new Options(); 
         options.addOption("i", true, "Display Maze"); //Add -i flag option to display the maze
-        CommandLineParser parser = new DefaultParser();
+
+        GenerateMaze newMaze = new GenerateMaze();
 
         try{
             CommandLine cmd = parser.parse(options, args); //Parse the command line arguments
@@ -33,29 +36,51 @@ public class Main {
             }
 
             String inputFileName = cmd.getOptionValue("i"); //Get the input file name
+            BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
+
+            System.out.println(newMaze.generateMaze(inputFileName));
 
             logger.info("**** Reading the maze from file " + inputFileName);
-
-            BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
 
             String line;
             while ((line = reader.readLine()) != null) {
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
-                        logger.info("WALL ");
+                        logger.trace("WALL ");
                     } else if (line.charAt(idx) == ' ') {
-                        logger.info("PASS ");
+                        logger.trace("PASS ");
                     }
                 }
-                logger.info(System.lineSeparator());
+                logger.trace(System.lineSeparator());
             }
 
         } catch(Exception e){
             logger.error("/!\\ An error has occured /!\\");
+            logger.error("PATH NOT COMPUTED");
             System.exit(1);
         }
+
         logger.info("**** Computing path");
-        logger.error("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
     }
+
+    // public static ArrayList<ArrayList<Character>> generateMaze(String filepath) {
+    //     ArrayList<ArrayList<Character>> maze = new ArrayList<ArrayList<Character>>();
+    //     try {
+    //         BufferedReader reader = new BufferedReader(new FileReader(filepath));
+    //         String line;
+    //         while ((line = reader.readLine()) != null) {
+    //             maze.add(new ArrayList<Character>()); // Add a new row to the maze
+
+    //             for (int idx = 0; idx < line.length(); idx++){
+    //                 maze.get(maze.size() - 1).add(line.charAt(idx)); // Add the character to the last row
+    //             }
+                
+    //         }
+    //         reader.close();
+    //     } catch (Exception e) {
+    //         logger.error("Error reading file");
+    //     }
+    //     return maze;
+    // }
 }
