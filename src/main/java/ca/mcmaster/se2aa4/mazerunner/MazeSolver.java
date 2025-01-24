@@ -43,4 +43,19 @@ public class MazeSolver{
         throw new IllegalArgumentException("No starting point found");
     }
 
+    
+    public ArrayList<Integer> findEnd(){ //Ends always on the last column
+        ArrayList<Integer> end = new ArrayList<Integer>();
+        for(int i = 0; i < maze.size(); i++){
+            ArrayList<Symbol> row = maze.get(i);
+            if(row.get(row.size() - 1) == Symbol.EMPTY){
+                //Give the ending value as [i, row.size() - 1] because it will always end on the last column
+                end.add(i);
+                end.add(row.size() - 1);
+                logger.info(String.format("Ending point found at: [%d, %d]", i, row.size() - 1));
+                return end;
+            }
+        }
+        throw new IllegalArgumentException("No ending point found");
+    }
 }
