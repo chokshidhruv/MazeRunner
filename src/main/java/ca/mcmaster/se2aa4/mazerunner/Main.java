@@ -21,11 +21,12 @@ public class Main {
     private static CommandLineParser parser = new DefaultParser();
 
     public static void main(String[] args) {
-    
+
         logger.info("** Starting Maze Runner"); //Log the start of the MazeRunner
         options.addOption("i", true, "Display Maze"); //Add -i flag option to display the maze
 
         GenerateMaze newMaze = new GenerateMaze();
+        MazeSolver mazeSolver = new MazeSolver();
 
         try{
             CommandLine cmd = parser.parse(options, args); //Parse the command line arguments
@@ -36,9 +37,10 @@ public class Main {
             }
 
             String inputFileName = cmd.getOptionValue("i"); //Get the input file name
-            BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
 
-            System.out.println(newMaze.generateMaze(inputFileName));
+            // System.out.println(newMaze.generateMaze(inputFileName));
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
 
             logger.info("**** Reading the maze from file " + inputFileName);
 
@@ -53,14 +55,19 @@ public class Main {
                 }
                 logger.trace(System.lineSeparator());
             }
+            reader.close();
+            
+            ArrayList<ArrayList<Symbol>> maze = newMaze.generateMaze(inputFileName);
+            mazeSolver.setMaze(maze);
+
+            logger.info("**** Computing path");
+            mazeSolver.solveMaze();
 
         } catch(Exception e){
             logger.error("/!\\ An error has occured /!\\");
+            logger.error(e.getMessage());
             logger.error("PATH NOT COMPUTED");
-            System.exit(1);
         }
-
-        logger.info("**** Computing path");
         logger.info("** End of MazeRunner");
     }
 }
