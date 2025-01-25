@@ -37,9 +37,9 @@ public class GenerateMaze{
         reader.close();
         
         //Print maze for debugging
-        logger.info("Generated maze structure:");
+        logger.trace("Generated maze structure:");
         for (ArrayList<Symbol> row : maze) {
-            logger.info(row.toString());
+            logger.trace(row.toString());
         }
 
         return maze;

@@ -97,12 +97,12 @@ public class MazeSolver{
 
         while(row != end.get(0) || col != end.get(1)){
             path = checkPath(row, col);
-            logger.info(String.format("Current position: [%d, %d]", row, col));
+            logger.trace(String.format("Current position: [%d, %d]", row, col));
             row = path.get(0);
             col = path.get(1);
         }
 
-        logger.info("Path found: " + getSequenceOfPath());  
+        System.out.println("Path found: " + getSequenceOfPath());  
     }
 
 }
