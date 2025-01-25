@@ -37,9 +37,6 @@ public class Main {
             }
 
             String inputFileName = cmd.getOptionValue("i"); //Get the input file name
-
-            // System.out.println(newMaze.generateMaze(inputFileName));
-
             BufferedReader reader = new BufferedReader(new FileReader(inputFileName));
 
             logger.info("**** Reading the maze from file " + inputFileName);
@@ -61,8 +58,8 @@ public class Main {
             mazeSolver.setMaze(maze);
 
             logger.info("**** Computing path");
-            mazeSolver.solveMaze();
 
+            mazeSolver.solveMaze();
         } catch(Exception e){
             logger.error("/!\\ An error has occured /!\\");
             logger.error("PATH NOT COMPUTED");
