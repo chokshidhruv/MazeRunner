@@ -7,6 +7,14 @@ public class MazeSolver {
     private static final Logger logger = LogManager.getLogger();
     private Symbol[][] maze;
 
+    //Instead of having numerous methods inside this class that did not pertain to the class, I removed them and split it into two new classes
+    //MazeLocation and Instruction
+    //MazeLocation contains the methods that pertain to the location of the maze
+    //Instruction contains the methods that pertain to the instructions of the maze
+
+    // TODO: Implement the Right hand rule - but, turn this into an interface and have RightHandAlgorithm implement it
+    // This will allow us to have multiple algorithms that can solve the maze for future use. 
+
     public MazeSolver(Symbol[][] maze) {
         this.maze = maze;
     }
