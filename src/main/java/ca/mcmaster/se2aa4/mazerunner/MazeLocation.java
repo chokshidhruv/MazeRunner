@@ -3,6 +3,11 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class responsible for managing locations within the maze.
+ * Implements the Location interface to find the start and end points and check if a location is valid.
+ */
+
 public class MazeLocation implements Location {
     private Symbol[][] maze;
     private int x;
@@ -13,8 +18,15 @@ public class MazeLocation implements Location {
         this.maze = maze;
     }
 
+    /**
+     * Finds the starting location in the maze.
+     * 
+     * @return An array containing the row and column of the starting location.
+     * @throws IllegalArgumentException If no starting point is found.
+     */
+
     @Override
-    public int[] findStart() {
+    public int[] findStart() throws IllegalArgumentException {
         for (int i = 0; i < maze.length; i++) {
             if (maze[i][0] == Symbol.EMPTY) {
                 logger.info(String.format("Starting point found at: [%d, %d]", i, 0));
@@ -23,9 +35,16 @@ public class MazeLocation implements Location {
         }
         throw new IllegalArgumentException("No starting point found");
     }
+
+    /**
+     * Finds the ending location in the maze.
+     * 
+     * @return An array containing the row and column of the ending location.
+     * @throws IllegalArgumentException If no ending point is found.
+     */
     
     @Override
-    public int[] findEnd() {
+    public int[] findEnd() throws IllegalArgumentException {
         for (int i = 0; i < maze.length; i++) {
             if (maze[i][maze[i].length - 1] == Symbol.EMPTY) {
                 logger.info(String.format("Ending point found at: [%d, %d]", i, maze[i].length - 1));
@@ -34,6 +53,14 @@ public class MazeLocation implements Location {
         }
         throw new IllegalArgumentException("No ending point found");
     }
+
+    /**
+     * Checks if a given location is valid within the maze.
+     * 
+     * @param row The row of the location to check.
+     * @param col The column of the location to check.
+     * @return True if the location is valid, false otherwise.
+     */
 
     @Override
     public boolean isValidLocation(int row, int col) {

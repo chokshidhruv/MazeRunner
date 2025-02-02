@@ -13,12 +13,27 @@ import org.apache.commons.cli.CommandLine;
 
 import java.io.IOException;
 
+/**
+ * ConfigMaze is a class that reads the input file, the maze height, the maze width, and the string path from the command-line arguments.
+ * It also sets the height and width of the maze by reading the input file.
+ */
+
 public class ConfigMaze {
     private static final Logger logger = LogManager.getLogger();
     private String inputFileName;
     private int mazeHeight;
     private int mazeWidth;
     private String stringPath;
+
+    /**
+     * Constructor for ConfigMaze.
+     * The constructor receives the input file name, the maze height, the maze width, and the string path.
+     * 
+     * @param inputFileName The name of the input file passed by the user.
+     * @param mazeHeight The height of the maze to be generated.
+     * @param mazeWidth The width of the maze to be generated.
+     * @param stringPath The string path to be compared with the generated path - inputted by the user to identify if the path is correct.
+     */
 
     public ConfigMaze(String inputFileName, int mazeHeight, int mazeWidth, String stringPath) {
         this.inputFileName = inputFileName;
@@ -43,6 +58,12 @@ public class ConfigMaze {
         return stringPath;
     }
 
+    /**
+     * Sets the height of the maze by reading the input file.
+     * 
+     * @param fileName The name of the input file.
+     */
+    
     public void setMazeHeight(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             int height = 0;
@@ -54,6 +75,12 @@ public class ConfigMaze {
             logger.error("**** Error reading maze file: " + e.getMessage());
         }
     }
+
+    /**
+     * Sets the width of the maze by reading the input file.
+     * 
+     * @param fileName The name of the input file.
+     */
 
     public void setMazeWidth(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -67,6 +94,13 @@ public class ConfigMaze {
             logger.error("**** Error reading maze file: " + e.getMessage());
         }
     }
+
+    /**
+     * Parses the command-line arguments to set the user input file name (from -i flag) and the user inputted string path (from -p flag).
+     * 
+     * @param args The command-line arguments.
+     * @throws Exception If an error occurs while parsing the command-line arguments.
+     */
 
     public void setInputFileName(String[] args) {
         Options options = new Options();

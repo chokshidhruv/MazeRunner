@@ -4,5 +4,5 @@
 ARGS=$1
 mvn clean package
 # java -jar target/mazerunner.jar -i $ARGS 
-java -jar target/mazerunner.jar -i ./examples/tiny.maz.txt -p FFFFFLLFFRFFRFFLLFFRFFRFFF
+java -jar target/mazerunner.jar -i ./examples/straight.maz.txt
 

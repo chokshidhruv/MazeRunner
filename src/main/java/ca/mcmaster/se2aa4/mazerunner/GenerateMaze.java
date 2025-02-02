@@ -5,8 +5,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Class responsible for generating a maze from a given input file.
+ */
+
 public class GenerateMaze{
     private Symbol[][] maze;
+
+    /**
+     * Constructor for GenerateMaze.
+     * Initializes the maze with the given height and width, and fills it with symbols from the input file.
+     * 
+     * @param fileName The name of the input file containing the maze.
+     * @param height The height of the maze.
+     * @param width The width of the maze.
+     * @throws IOException If an I/O error occurs while reading the file.
+     */
 
     public GenerateMaze(String fileName, int height, int width) throws IOException {
         maze = new Symbol[height][width];
@@ -16,6 +30,8 @@ public class GenerateMaze{
                 maze[i][j] = Symbol.EMPTY; 
             }
         }
+
+        try{
 
         FileReader reader = new FileReader(fileName);
         BufferedReader bufferedReader = new BufferedReader(reader);
@@ -29,18 +45,13 @@ public class GenerateMaze{
             row++;
         }
         bufferedReader.close();
-    }
 
+        } catch (IOException e) {
+            throw new IOException("Error reading maze file: " + e.getMessage());
+        }
+    }
+    
     public Symbol[][] getMaze() {
         return maze;
-    }
-
-    public void printMaze() {
-        for (Symbol[] row : maze) {
-            for (Symbol cell : row) {
-                System.out.print(cell);
-            }
-            System.out.println();
-        }
     }
 }
