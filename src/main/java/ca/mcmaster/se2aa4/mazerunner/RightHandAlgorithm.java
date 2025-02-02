@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RightHandAlgorithm implements MazeSolver {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(RightHandAlgorithm.class);
     private Cardinal direction;
     private int x, y;
     private Symbol[][] maze;
@@ -15,7 +15,7 @@ public class RightHandAlgorithm implements MazeSolver {
         this.mazeLocation = mazeLocation;
     }
 
-
+    @Override
     public int[] getNextPosition(Cardinal dir) {
         if (dir == Cardinal.NORTH) {
             return new int[]{x - 1, y};
@@ -30,9 +30,10 @@ public class RightHandAlgorithm implements MazeSolver {
         }
     }
 
-
     @Override
-    public String solveMazePath(boolean isCanonical) {
+    public String solveMazePath(boolean isCanonical, boolean spaced) {
+        instruction = new Instruction();
+
         int[] end = mazeLocation.findEnd();
         int[] start = mazeLocation.findStart();
 
@@ -65,13 +66,18 @@ public class RightHandAlgorithm implements MazeSolver {
 
             logger.info(String.format("Current position: [%d, %d], Facing: %s", x, y, direction));
         }
-
-        if (isCanonical) {
-            Path path = new Path(instruction);
+           
+        Path path = new Path(instruction);
+        if (isCanonical && spaced) {
             return path.getCanonicalPath();
-        } else {
-            Path path = new Path(instruction);
+        }else if (!isCanonical && spaced) {    
             return path.getFactorizedPath();
+        }
+        else if (isCanonical && !spaced) {
+            return path.getCanonicalPathWithoutSpaces();
+        }
+        else {
+            return path.getFactorizedPathWithoutSpaces();
         }
     }
 }

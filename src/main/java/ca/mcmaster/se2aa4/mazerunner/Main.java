@@ -20,8 +20,6 @@ public class Main {
             // Generate the maze using ConfigMaze
             GenerateMaze newMaze = new GenerateMaze(config.getInputFileName(), config.getMazeHeight(), config.getMazeWidth());
             
-            newMaze.printMaze();
-            
             MazeLocation loc = new MazeLocation(newMaze.getMaze()); 
             MazeSolver rightHandAlgorithm = new RightHandAlgorithm(loc);
 
@@ -30,18 +28,22 @@ public class Main {
             logger.info("**** Path: " + config.getStringPath());
 
             boolean isCanonical = true;
+            boolean spaced = true;
 
             if (config.getStringPath() != null) {
-                if (config.getStringPath() == rightHandAlgorithm.solveMazePath(isCanonical) || config.getStringPath() == rightHandAlgorithm.solveMazePath(!isCanonical)) {
-                    System.out.println("Path is correct");
+                if (config.getStringPath().equals(rightHandAlgorithm.solveMazePath(isCanonical, !spaced))) {
+                    System.out.println("correct path");
+                }
+                else if (config.getStringPath().equals(rightHandAlgorithm.solveMazePath(!isCanonical, !spaced))) {
+                    System.out.println("correct path");
                 }
                 else {
-                    System.out.println("Path is incorrect");
+                    System.out.println("incorrect path");
                 }
 
             } else {
                 logger.info("**** Computing path");
-                String factorizedPath = rightHandAlgorithm.solveMazePath(false);
+                String factorizedPath = rightHandAlgorithm.solveMazePath(isCanonical, spaced);
                 System.out.println(factorizedPath);
             }         
 

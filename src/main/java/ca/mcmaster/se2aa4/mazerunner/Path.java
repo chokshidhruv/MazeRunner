@@ -55,6 +55,14 @@ public class Path {
         }
         result.append(current);
 
-        return result.toString().trim();
+        return result.toString();
+    }
+
+    public String getCanonicalPathWithoutSpaces() {
+        return getCanonicalPath().replace(" ", "");
+    }
+
+    public String getFactorizedPathWithoutSpaces() {
+        return getFactorizedPath().replace(" ", "");
     }
 }

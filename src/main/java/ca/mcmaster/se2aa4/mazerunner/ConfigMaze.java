@@ -28,30 +28,27 @@ public class ConfigMaze {
     }
 
     public String getInputFileName() {
-        return this.inputFileName;
+        return inputFileName;
     }
 
     public int getMazeHeight() {
-        return this.mazeHeight;
+        return mazeHeight;
     }
 
     public int getMazeWidth() {
-        return this.mazeWidth;
+        return mazeWidth;
     }
 
     public String getStringPath() {
-        return this.stringPath;
+        return stringPath;
     }
 
     public void setMazeHeight(String fileName) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            String line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             int height = 0;
-            while ((line = reader.readLine()) != null) {
+            while (reader.readLine() != null) {
                 height++;
             }
-            reader.close();
             mazeHeight = height;
         } catch (IOException e) {
             logger.error("**** Error reading maze file: " + e.getMessage());
@@ -59,20 +56,17 @@ public class ConfigMaze {
     }
 
     public void setMazeWidth(String fileName) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             int width = 0;
             while ((line = reader.readLine()) != null) {
                 width = line.length();
             }
-            reader.close();
             mazeWidth = width;
         } catch (IOException e) {
             logger.error("**** Error reading maze file: " + e.getMessage());
         }
     }
-
 
     public void setInputFileName(String[] args) {
         Options options = new Options();
@@ -81,23 +75,21 @@ public class ConfigMaze {
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
-            if(!cmd.hasOption("i")){ //Check if the -i flag is present
-                logger.error("**** No input file specified"); 
+            if (!cmd.hasOption("i")) {
+                logger.error("**** No input file specified");
                 System.exit(1);
             }
 
+            inputFileName = cmd.getOptionValue("i");
             if (cmd.hasOption("p")) {
                 stringPath = cmd.getOptionValue("p");
             }
 
-            inputFileName = cmd.getOptionValue("i");
-
             setMazeHeight(inputFileName);
             setMazeWidth(inputFileName);
-            
+
         } catch (Exception e) {
-            logger.error("**** Error reading maze file: " + e.getMessage());
+            logger.error("**** Error parsing command line options: " + e.getMessage());
         }
     }
-
 }
