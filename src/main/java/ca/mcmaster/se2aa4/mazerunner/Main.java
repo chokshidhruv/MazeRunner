@@ -43,7 +43,7 @@ public class Main {
 
             } else {
                 logger.info("**** Computing path");
-                String factorizedPath = rightHandAlgorithm.solveMazePath(isCanonical, spaced);
+                String factorizedPath = rightHandAlgorithm.solveMazePath(!isCanonical, spaced);
                 System.out.println(factorizedPath);
             }         
 
