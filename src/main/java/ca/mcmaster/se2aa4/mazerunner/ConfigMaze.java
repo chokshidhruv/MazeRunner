@@ -18,11 +18,13 @@ public class ConfigMaze {
     private String inputFileName;
     private int mazeHeight;
     private int mazeWidth;
+    private String stringPath;
 
-    public ConfigMaze(String inputFileName, int mazeHeight, int mazeWidth) {
+    public ConfigMaze(String inputFileName, int mazeHeight, int mazeWidth, String stringPath) {
         this.inputFileName = inputFileName;
         this.mazeHeight = mazeHeight;
         this.mazeWidth = mazeWidth;
+        this.stringPath = stringPath;
     }
 
     public String getInputFileName() {
@@ -35,6 +37,10 @@ public class ConfigMaze {
 
     public int getMazeWidth() {
         return this.mazeWidth;
+    }
+
+    public String getStringPath() {
+        return this.stringPath;
     }
 
     public void setMazeHeight(String fileName) {
@@ -71,13 +77,17 @@ public class ConfigMaze {
     public void setInputFileName(String[] args) {
         Options options = new Options();
         options.addOption("i", "input", true, "Maze text file");
-        
+        options.addOption("p", "path", true, "String path");
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
             if(!cmd.hasOption("i")){ //Check if the -i flag is present
                 logger.error("**** No input file specified"); 
                 System.exit(1);
+            }
+
+            if (cmd.hasOption("p")) {
+                stringPath = cmd.getOptionValue("p");
             }
 
             inputFileName = cmd.getOptionValue("i");
