@@ -72,7 +72,7 @@ public class ConfigMaze {
             }
             mazeHeight = height;
         } catch (IOException e) {
-            logger.error("**** Error reading maze file: " + e.getMessage());
+            throw new IllegalArgumentException("Error reading maze file: " + e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class ConfigMaze {
             }
             mazeWidth = width;
         } catch (IOException e) {
-            logger.error("**** Error reading maze file: " + e.getMessage());
+            throw new IllegalArgumentException("Error reading maze file: " + e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class ConfigMaze {
             setMazeWidth(inputFileName);
 
         } catch (Exception e) {
-            logger.error("**** Error parsing command line options: " + e.getMessage());
+            throw new IllegalArgumentException("Error parsing command-line arguments: " + e.getMessage());
         }
     }
 }

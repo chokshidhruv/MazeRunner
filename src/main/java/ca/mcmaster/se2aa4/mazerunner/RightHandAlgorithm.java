@@ -89,8 +89,6 @@ public class RightHandAlgorithm implements MazeSolver {
                     instruction.setInstruction('L');
                 }
             }
-
-            logger.info(String.format("Current position: [%d, %d], Facing: %s", x, y, direction));
         }
            
         if (isCanonical && spaced) {

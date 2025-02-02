@@ -15,9 +15,7 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        logger.info("** Starting Maze Runner **");
 
-        // Parse command-line arguments
         ConfigMaze config = new ConfigMaze(null, 0, 0, null);
         config.setInputFileName(args);
 
@@ -26,9 +24,6 @@ public class Main {
             GenerateMaze newMaze = new GenerateMaze(config.getInputFileName(), config.getMazeHeight(), config.getMazeWidth());
             MazeLocation loc = new MazeLocation(newMaze.getMaze()); 
             MazeSolver rightHandAlgorithm = new RightHandAlgorithm(loc);
-
-            logger.info("**** Reading the maze from file: " + config.getInputFileName());
-            logger.info("**** Path: " + config.getStringPath());
 
             boolean isCanonical = true;
             boolean spaced = true;
@@ -45,16 +40,12 @@ public class Main {
                 }
 
             } else {    // Compute and print the factorized path if the path is not provided
-                logger.info("**** Computing path");
                 String factorizedPath = rightHandAlgorithm.solveMazePath(!isCanonical, spaced);
                 System.out.println(factorizedPath);
             }         
 
         } catch (Exception e) {
-            logger.error("/!\\ An error has occurred /!\\");
-            logger.error("PATH NOT COMPUTED: " + e.getMessage());
-            System.exit(1);
+            throw new IllegalArgumentException("Error reading maze file: " + e.getMessage());
         }
-        logger.info("** End of Maze Runner **");
     }
 }
