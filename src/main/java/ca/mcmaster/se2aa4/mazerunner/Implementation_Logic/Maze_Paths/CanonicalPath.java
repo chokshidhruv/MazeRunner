@@ -16,21 +16,16 @@ public class CanonicalPath extends Pathway {
         if (path == null || path.isEmpty()) { 
             return "";
         }
+        
         StringBuilder result = new StringBuilder();
-        char current = path.charAt(0);
-
-        result.append(current);
-
-        // Add a space before each new direction by checking if the current character is different from the previous one
-        for (int i = 1; i < path.length(); i++) {
-            if (path.charAt(i) == current) {
-                result.append(path.charAt(i));
-            } else {
-                result.append(" ").append(path.charAt(i));
-                current = path.charAt(i);
+        // Iterate through each character in the path
+        for (int i = 0; i < path.length(); i++) {
+            // Append a space before each instruction after the first one.
+            if (i > 0) {
+                result.append(" ");
             }
+            result.append(path.charAt(i));
         }
-
         return result.toString();
     }
 }
