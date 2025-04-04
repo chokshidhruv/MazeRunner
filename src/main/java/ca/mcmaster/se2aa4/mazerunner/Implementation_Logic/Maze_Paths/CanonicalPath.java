@@ -3,16 +3,13 @@ package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Paths;
 import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Algorithm.MazeSolver;
 
 public class CanonicalPath extends Pathway {
+    
     /**
-     * Gets the canonical path with spaces.
+     * Gets the canonical path with spaces. 
+     * Please note: Spaces are removed when comparing with the input; but for aesthetics, I have left them in the output. 
      * 
      * @return The canonical path as a string with spaces.
      */
-
-    // public CanonicalPath(Instruction instruction) {
-    //     this.instruction = instruction;
-    // }
-    
      @Override
      public String solvePath(MazeSolver solver) {
         String path = solver.solveMazePath();

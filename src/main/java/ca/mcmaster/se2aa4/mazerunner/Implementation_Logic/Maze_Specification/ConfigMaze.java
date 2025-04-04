@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * ConfigMaze is a class that reads the input file, the maze height, the maze width, and the string path from the command-line arguments.
  * It also sets the height and width of the maze by reading the input file.
+ * THIS CLASS IS RESPONSIBLE FOR READING INPUTS FROM THE USER - THUS, IT HAS MULTIPLE PURPOSES - STILL ADHERING TO SRP. 
  */
 
 public class ConfigMaze {
@@ -124,33 +125,4 @@ public class ConfigMaze {
             throw new IllegalArgumentException("Error parsing command-line arguments: " + e.getMessage());
         }
     }
-
-    // public String manipulateUserInputStringPath(String stringPath) {
-    //     if (stringPath == null || stringPath.isEmpty()) {
-    //         return "";
-    //     }
-
-    //     StringBuilder result = new StringBuilder();
-    //     for (int i = 0; i < stringPath.length(); i++) {
-    //         char currentChar = stringPath.charAt(i);
-
-    //         // If the character is a digit, expand the next character
-    //         if (Character.isDigit(currentChar)) {
-    //             int count = Character.getNumericValue(currentChar);
-    //             if (i + 1 < stringPath.length()) {
-    //                 char direction = stringPath.charAt(i + 1);
-    //                 for (int j = 0; j < count; j++) {
-    //                     result.append(direction);
-    //                 }
-    //                 i++; // Skip the direction character
-    //             }
-    //         } else {
-    //             // Append the character as-is (e.g., "F", "R", "L")
-    //             result.append(currentChar);
-    //         }
-    //     }
-    //     logger.info("User input string path: " + result.toString());
-    //     return result.toString().replace(" ", ""); // Remove spaces;
-        
-    // }
 }

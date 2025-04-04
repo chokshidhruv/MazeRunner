@@ -109,16 +109,31 @@ public class RightHandAlgorithm implements MazeSolver, MazeSubject {
         return finalPath;
     }
 
+    /**
+     * Attaches an observer to the subject.
+     * 
+     * @param observer The observer to attach.
+     */
     @Override
     public void attach(MazeObserver observer) {
         observers.add(observer);
     }
 
+    /**
+     * Detaches an observer from the subject.
+     * 
+     * @param observer The observer to detach.
+     */
     @Override
     public void detach(MazeObserver observer) {
         observers.remove(observer);
     }
 
+    /**
+     * Notifies all observers of the latest instruction (ie. If F is the latest instruction, it will notify all observers of F).
+     * 
+     * @param latestInstruction The latest instruction to notify observers about.
+     */
     @Override
     public void notifyObservers(String latestInstruction) {
         logger.info("Notifying observers of instruction: " + latestInstruction);
@@ -127,6 +142,11 @@ public class RightHandAlgorithm implements MazeSolver, MazeSubject {
         }
     }
 
+    /**
+     * Gets the list of observers attached to the subject.
+     * 
+     * @return The list of observers.
+     */
     @Override
     public List<MazeObserver> getObservers() {
         return observers;

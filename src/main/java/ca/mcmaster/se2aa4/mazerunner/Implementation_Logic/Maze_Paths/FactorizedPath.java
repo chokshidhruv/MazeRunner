@@ -3,16 +3,13 @@ package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Paths;
 import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Algorithm.MazeSolver;
 
 public class FactorizedPath extends Pathway {
-    /**
-     * Gets the canonical path with spaces.
-     * 
-     * @return The canonical path as a string with spaces.
-     */
-
-    // public FactorizedPath(Instruction instruction) {
-    //     this.instruction = instruction;
-    // }
     
+    /**
+     * Gets the factorized path with spaces.
+     * Please note: Spaces are removed when comparing with the input; but for aesthetics, I have left them in the output. 
+     *
+     * @return The factorized path as a string with spaces.
+     */    
      @Override
      public String solvePath(MazeSolver solver) {
         String path = solver.solveMazePath();
