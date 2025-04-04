@@ -33,14 +33,20 @@ public class GenerateMaze {
         }
 
         int height = lines.size();
-        int width = lines.isEmpty() ? 0 : lines.get(0).length();
 
+        int width = 0;
+        // Determine the maximum width among all lines
+        for (String l : lines) {
+            if (l.length() > width) {
+                width = l.length();
+            }
+        }
         maze = new Symbol[height][width];
         for (int i = 0; i < height; i++) {
             // If a line is blank, pad it with spaces to match the width.
             String currentLine = lines.get(i);
-            if (currentLine.length() == 0) {
-                currentLine = " ".repeat(width);
+            if (currentLine.length() < width) {
+                currentLine = String.format("%-" + width + "s", currentLine);
             }
             for (int j = 0; j < width; j++) {
                 maze[i][j] = (currentLine.charAt(j) == '#') ? Symbol.WALL : Symbol.EMPTY;
