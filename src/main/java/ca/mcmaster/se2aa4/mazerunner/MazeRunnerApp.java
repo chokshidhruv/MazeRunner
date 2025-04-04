@@ -96,7 +96,7 @@ public class MazeRunnerApp {
         invoker.setCommand(new SolveMazeCommand(new FactorizedPath(), solver));
         String solverPath = invoker.executeCommand();
         logger.info("Factorized Path: " + solverPath);
-        System.out.println("Command Pattern Solve Path: " + solverPath);
+        System.out.println(solverPath);
     }
 
     /**
@@ -111,6 +111,6 @@ public class MazeRunnerApp {
         invoker.setCommand(new ValidatePathCommand(normalizedUserPath, solver));
         String validationResult = invoker.executeCommand();
         logger.info("Validation Result: " + validationResult);
-        System.out.println("Command Pattern Validation: " + normalizedUserPath + " is " + validationResult);
+        System.out.println(validationResult);
     }
 }
