@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification;
 
 /**
  * Enum representing the four cardinal directions: NORTH, EAST, SOUTH, and WEST.

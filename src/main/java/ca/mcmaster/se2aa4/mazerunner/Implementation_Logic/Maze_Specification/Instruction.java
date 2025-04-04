@@ -1,4 +1,4 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification;
 
 /**
  * Class responsible for storing the path instructions.

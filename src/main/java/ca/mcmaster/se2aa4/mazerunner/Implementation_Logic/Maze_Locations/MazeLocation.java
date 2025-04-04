@@ -1,7 +1,9 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Locations;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification.Symbol;
 
 /**
  * Class responsible for managing locations within the maze.

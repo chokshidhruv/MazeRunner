@@ -1,22 +1,35 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Algorithm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Locations.MazeLocation;
+import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification.Cardinal;
+import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification.Instruction;
+import ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification.Symbol;
+import ca.mcmaster.se2aa4.mazerunner.Observer_Pattern.MazeObserver;
+import ca.mcmaster.se2aa4.mazerunner.Observer_Pattern.MazeSubject;
+
 /**
  * Class implementing the right-hand rule algorithm to solve the maze.
- * Implements the MazeSolver interface.
+ * Implements the MazeSolver interface and MazeSubject (Observer pattern).
  */
-
-public class RightHandAlgorithm implements MazeSolver {
+public class RightHandAlgorithm implements MazeSolver, MazeSubject {
     private static final Logger logger = LogManager.getLogger(RightHandAlgorithm.class);
+
     private Cardinal direction;
     private int x, y;
     private Symbol[][] maze;
     private MazeLocation mazeLocation;
     private Instruction instruction = new Instruction();
+    private String finalPath = null;
 
-    public RightHandAlgorithm(MazeLocation mazeLocation) { 
+    private final List<MazeObserver> observers = new ArrayList<>();
+
+    public RightHandAlgorithm(MazeLocation mazeLocation) {
         this.mazeLocation = mazeLocation;
     }
 
@@ -27,10 +40,8 @@ public class RightHandAlgorithm implements MazeSolver {
      * @return An array containing the row and column of the next position.
      * @throws IllegalStateException If the direction is invalid.
      */
-
     @Override
     public int[] getNextPosition(Cardinal dir) {
-        // All pathways are provided as Forward directions respective to the current direction. For example if the current direction is EAST, the forward direction will be towards EAST.
         if (dir == Cardinal.NORTH) {
             return new int[]{x - 1, y};
         } else if (dir == Cardinal.EAST) {
@@ -47,15 +58,16 @@ public class RightHandAlgorithm implements MazeSolver {
     /**
      * Solves the maze using the right-hand rule algorithm and returns the path.
      * 
-     * @param isCanonical Whether to return the canonical path.
-     * @param spaced Whether to include spaces in the path.
-     * @return The path as a string based on the provided parameters.
+     * @return The path as a string.
      */
-
     @Override
-    public String solveMazePath(boolean isCanonical, boolean spaced) {
+    public String solveMazePath() {
+        if (finalPath != null) {
+            logger.info("Returning final path: " + finalPath);
+            return finalPath;
+        }
+
         instruction = new Instruction();
-        Path path = new Path(instruction);
 
         int[] end = mazeLocation.findEnd();
         int[] start = mazeLocation.findStart();
@@ -67,40 +79,56 @@ public class RightHandAlgorithm implements MazeSolver {
         while (x != end[0] || y != end[1]) {
             Cardinal rightDirection = direction.getRightDirection();
             int[] rightPos = getNextPosition(rightDirection);
-            // If the right position is valid, turn right and move forward respective to the current direction.
             if (mazeLocation.isValidLocation(rightPos[0], rightPos[1])) {
                 direction = rightDirection;
                 x = rightPos[0]; 
                 y = rightPos[1];
 
                 instruction.setInstruction('R');
+                notifyObservers("R");
                 instruction.setInstruction('F');
+                notifyObservers("F");
             } else {
                 int[] forwardPos = getNextPosition(direction);
-                // If the forward position is valid, move forward respective to the current direction.
                 if (mazeLocation.isValidLocation(forwardPos[0], forwardPos[1])) {
                     x = forwardPos[0];
                     y = forwardPos[1];
 
                     instruction.setInstruction('F');
+                    notifyObservers("F");
                 } else {
-                    // If the forward position is not valid, turn left respective to the current direction.
                     direction = direction.getLeftDirection();
                     instruction.setInstruction('L');
+                    notifyObservers("L");
                 }
             }
         }
-           
-        if (isCanonical && spaced) {
-            return path.getCanonicalPath();
-        }else if (!isCanonical && spaced) {    
-            return path.getFactorizedPath();
+
+        finalPath = instruction.getInstruction();
+        logger.info("Path found: " + finalPath);
+        return finalPath;
+    }
+
+    @Override
+    public void attach(MazeObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detach(MazeObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(String latestInstruction) {
+        logger.info("Notifying observers of instruction: " + latestInstruction);
+        for (MazeObserver obs : observers) {
+            obs.update(latestInstruction);
         }
-        else if (isCanonical && !spaced) {
-            return path.getCanonicalPathWithoutSpaces();
-        }
-        else {
-            return path.getFactorizedPathWithoutSpaces();
-        }
+    }
+
+    @Override
+    public List<MazeObserver> getObservers() {
+        return observers;
     }
 }

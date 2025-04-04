@@ -1,17 +1,15 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.io.IOException;
 
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.CommandLine;
-
-import java.io.IOException;
+import org.apache.commons.cli.Options;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * ConfigMaze is a class that reads the input file, the maze height, the maze width, and the string path from the command-line arguments.
@@ -126,4 +124,33 @@ public class ConfigMaze {
             throw new IllegalArgumentException("Error parsing command-line arguments: " + e.getMessage());
         }
     }
+
+    // public String manipulateUserInputStringPath(String stringPath) {
+    //     if (stringPath == null || stringPath.isEmpty()) {
+    //         return "";
+    //     }
+
+    //     StringBuilder result = new StringBuilder();
+    //     for (int i = 0; i < stringPath.length(); i++) {
+    //         char currentChar = stringPath.charAt(i);
+
+    //         // If the character is a digit, expand the next character
+    //         if (Character.isDigit(currentChar)) {
+    //             int count = Character.getNumericValue(currentChar);
+    //             if (i + 1 < stringPath.length()) {
+    //                 char direction = stringPath.charAt(i + 1);
+    //                 for (int j = 0; j < count; j++) {
+    //                     result.append(direction);
+    //                 }
+    //                 i++; // Skip the direction character
+    //             }
+    //         } else {
+    //             // Append the character as-is (e.g., "F", "R", "L")
+    //             result.append(currentChar);
+    //         }
+    //     }
+    //     logger.info("User input string path: " + result.toString());
+    //     return result.toString().replace(" ", ""); // Remove spaces;
+        
+    // }
 }
