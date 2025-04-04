@@ -1,4 +1,4 @@
-# Assignment A1 - Maze Runner
+# Assignment A1/A3 - Maze Runner
 
 - Original author: Dr. [Sébastien Mosser](https://mosser.github.io)
 - Version: 2024.01
