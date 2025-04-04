@@ -3,54 +3,75 @@ package ca.mcmaster.se2aa4.mazerunner.Implementation_Logic.Maze_Specification;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class responsible for generating a maze from a given input file.
  */
-
-public class GenerateMaze{
+public class GenerateMaze {
     private Symbol[][] maze;
 
     /**
      * Constructor for GenerateMaze.
-     * Initializes the maze with the given height and width, and fills it with symbols from the input file.
+     * Reads the maze file and determines its dimensions encapsulated in type Symbol. 
+     * Blank lines are added with spaces to match the size of the maze.
      * 
      * @param fileName The name of the input file containing the maze.
-     * @param height The height of the maze.
-     * @param width The width of the maze.
      * @throws IOException If an I/O error occurs while reading the file.
      */
+    public GenerateMaze(String fileName) throws IOException {
+        List<String> lines = new ArrayList<>();
 
-    public GenerateMaze(String fileName, int height, int width) throws IOException {
-        maze = new Symbol[height][width];
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                maze[i][j] = Symbol.EMPTY; 
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
             }
-        }
-
-        try{
-
-        FileReader reader = new FileReader(fileName);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        String line;
-        int row = 0;
-
-        while ((line = bufferedReader.readLine()) != null) {
-            for (int col = 0; col < line.length(); col++) {
-                maze[row][col] = (line.charAt(col) == '#') ? Symbol.WALL : Symbol.EMPTY;
-            }
-            row++;
-        }
-        bufferedReader.close();
-
         } catch (IOException e) {
             throw new IOException("Error reading maze file: " + e.getMessage());
         }
+
+        int height = lines.size();
+        int width = lines.isEmpty() ? 0 : lines.get(0).length();
+
+        maze = new Symbol[height][width];
+        for (int i = 0; i < height; i++) {
+            // If a line is blank, pad it with spaces to match the width.
+            String currentLine = lines.get(i);
+            if (currentLine.length() == 0) {
+                currentLine = " ".repeat(width);
+            }
+            for (int j = 0; j < width; j++) {
+                maze[i][j] = (currentLine.charAt(j) == '#') ? Symbol.WALL : Symbol.EMPTY;
+            }
+        }
     }
-    
+
+    /**
+     * Returns the generated maze as a 2D array of symbols.
+     * 
+     * @return The maze.
+     */
     public Symbol[][] getMaze() {
         return maze;
+    }
+
+    /**
+     * Returns the height of the maze.
+     * 
+     * @return The height of the maze.
+     */
+    public int getHeight() {
+        return maze.length;
+    }
+
+    /**
+     * Returns the width of the maze.
+     * 
+     * @return The width of the maze.
+     */
+    public int getWidth() {
+        return maze[0].length;
     }
 }

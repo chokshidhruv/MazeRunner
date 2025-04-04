@@ -48,8 +48,8 @@ public class MazeRunnerApp {
      * @param args
      * @return ConfigMaze object with the maze configuration.
      */
-    private ConfigMaze initializeConfig(String[] args) {
-        ConfigMaze config = new ConfigMaze(null, 0, 0, null);
+    public ConfigMaze initializeConfig(String[] args) {
+        ConfigMaze config = new ConfigMaze();
         config.setInputFileName(args);
         return config;
     }
@@ -60,9 +60,9 @@ public class MazeRunnerApp {
      * @param config The configuration for the maze.
      * @return MazeSolver object to solve the maze.
      */
-    private MazeSolver initializeMazeSolver(ConfigMaze config) {
+    public MazeSolver initializeMazeSolver(ConfigMaze config) {
         try {
-            GenerateMaze newMaze = new GenerateMaze(config.getInputFileName(), config.getMazeHeight(), config.getMazeWidth());
+            GenerateMaze newMaze = new GenerateMaze(config.getInputFileName());
             MazeLocation loc = new MazeLocation(newMaze.getMaze());
             return new RightHandAlgorithm(loc);
         } catch (IOException e) {
@@ -78,7 +78,7 @@ public class MazeRunnerApp {
      * 
      * @param solver The maze solver to attach the observer to.
      */
-    private void attachObserver(MazeSolver solver) {
+    public void attachObserver(MazeSolver solver) {
         if (solver instanceof MazeSubject subject) {
             ObserverLogger observerLogger = new ObserverLogger();
             subject.attach(observerLogger);
@@ -91,7 +91,7 @@ public class MazeRunnerApp {
      * 
      * @param solver The maze solver to use.
      */
-    private void solveMaze(MazeSolver solver) {
+    public void solveMaze(MazeSolver solver) {
         MazeCommandInvoker invoker = new MazeCommandInvoker();
         invoker.setCommand(new SolveMazeCommand(new FactorizedPath(), solver));
         String solverPath = invoker.executeCommand();
@@ -105,7 +105,7 @@ public class MazeRunnerApp {
      * @param config The configuration for the maze.
      * @param solver The maze solver to use for validation.
      */
-    private void validatePath(ConfigMaze config, MazeSolver solver) {
+    public void validatePath(ConfigMaze config, MazeSolver solver) {
         MazeCommandInvoker invoker = new MazeCommandInvoker();
         String normalizedUserPath = config.getStringPath();
         invoker.setCommand(new ValidatePathCommand(normalizedUserPath, solver));
